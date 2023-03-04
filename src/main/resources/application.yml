@@ -21,8 +21,6 @@ logging:
     ir.welldone.appmanager: DEBUG
     org.hibernate: ERROR
 
-
-
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
