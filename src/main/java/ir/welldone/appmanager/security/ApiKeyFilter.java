@@ -19,19 +19,18 @@ public class ApiKeyFilter extends OncePerRequestFilter {
     @Value("${api-key}")
     private String apiKey;
 
-    @Value("${springdoc.swagger-ui.path}")
-    private String swaggerUiPath;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getRequestURI().endsWith(swaggerUiPath) || request.getRequestURI().endsWith("/v3/api-docs")){
-            filterChain.doFilter(request, response);
-        }
-        String requestApiKey = request.getHeader("api-key");
-        if(apiKey.equals(requestApiKey)) {
+        if(request.getRequestURI().startsWith("/swagger-ui") ||
+                request.getRequestURI().startsWith("/v3/api-docs")){
             filterChain.doFilter(request, response);
         } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You cannot consume this service. Please check your api key.");
+            String requestApiKey = request.getHeader("api-key");
+            if (apiKey.equals(requestApiKey)) {
+                filterChain.doFilter(request, response);
+            } else {
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid API Key");
+            }
         }
     }
 }
