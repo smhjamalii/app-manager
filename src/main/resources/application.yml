@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:appmngrdb;INIT=CREATE SCHEMA IF NOT EXISTS APP_MANAGER
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: true
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
+    ir.welldone.appmanager: DEBUG
+    org.hibernate: ERROR
+
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+api-key: 10-20-3-15-1000-60-16
+
+
+
